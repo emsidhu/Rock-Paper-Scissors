@@ -66,3 +66,30 @@ function playRound(playerSelection, computerSelection) {
     }
     return feedback
 }
+
+
+function game() {
+    let playerPoints = 0
+    let computerPoints = 0
+    let roundNumber = 1
+    console.log("Let's play a best of 5 game of Rock, Paper, Scissors")
+    while (playerPoints < 3 && computerPoints < 3) {
+        let playerSelection = prompt(`Round ${roundNumber}. Choose Rock, Paper, or Scissors.`)
+        const feedback = playRound(playerSelection, computerSelection())
+        console.log(feedback.string)
+        if (feedback.winner == "player") {
+            playerPoints++
+        } else if (feedback.winner == "computer") {
+            computerPoints++
+        }
+        roundNumber++
+    }
+    if (playerPoints == 3) {
+        console.log("You win the game! Good job!")
+    } else {
+        console.log("You lose, too bad.")
+    }
+}
+
+game()
+
