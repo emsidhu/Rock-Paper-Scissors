@@ -15,9 +15,7 @@ function computerSelection() {
 
 function playRound(playerSelection, computerSelection) {
     const feedback = {string: "",winner: ""}
-    if (playerSelection == null) {
-        feedback.string = "invalid choice, please choose Rock, Paper, or Scissors"
-    } else if (playerSelection.toLowerCase() == "rock") {
+    if (playerSelection.toLowerCase() == "rock") {
         if (computerSelection == "rock") {
             feedback.string = "It's a tie! You both chose Rock"
             feedback.winner = "tie"
@@ -59,37 +57,43 @@ function playRound(playerSelection, computerSelection) {
             feedback.string = "It's a tie! You both chose Scissors"
             feedback.winner = "tie"
         }
-
-    } else {
-        feedback.string = "invalid choice, please choose Rock, Paper, or Scissors"
-        feedback.winner = "invalid"
     }
-    return feedback
+    game(feedback)
 }
 
 
-function game() {
-    let playerPoints = 0
-    let computerPoints = 0
-    let roundNumber = 1
-    console.log("Let's play a best of 5 game of Rock, Paper, Scissors")
-    while (playerPoints < 3 && computerPoints < 3) {
-        let playerSelection = prompt(`Round ${roundNumber}. Choose Rock, Paper, or Scissors.`)
-        const feedback = playRound(playerSelection, computerSelection())
-        console.log(feedback.string)
+let buttons = document.querySelectorAll("button")
+console.log(buttons)
+buttons.forEach(button => {
+    let choice = button.id
+    button.addEventListener("click", (e) => {
+        playRound(choice, computerSelection())
+    })
+})
+let results = document.querySelector("#results")
+let playerPoints = 0
+let computerPoints = 0
+let roundNumber = 1
+results.textContent = "Let's play a best of 5 game of Rock, Paper, Scissors"
+
+function game(feedback) {
+    if (playerPoints < 5 && computerPoints < 5) {
+        results.textContent = feedback.string
         if (feedback.winner == "player") {
-            playerPoints++
+            playerPoints++ 
         } else if (feedback.winner == "computer") {
             computerPoints++
         }
+        
         roundNumber++
+        results.innerHTML += `<br />Round ${roundNumber}. Your points = ${playerPoints}. Computer's points = ${computerPoints}. Choose Rock, Paper, or Scissors.`
     }
-    if (playerPoints == 3) {
-        console.log("You win the game! Good job!")
-    } else {
-        console.log("You lose, too bad.")
+    if (playerPoints == 5) {
+        results.textContent = "You win the game! Good job!"
+    } else if (computerPoints == 5) {
+        results.textContent = "You lose, too bad."
     }
+    
 }
 
-game()
 
